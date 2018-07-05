@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  brwsr:
+    image: clariah/brwsr:latest
+    ports:
+      - "5000:5000"
+    environment:
+      - SPARQL_ENDPOINT=http://stardog:5820/stardog/query
+      - LOCAL_SERVER_NAME=http://localhost:5000
+      - DEFAULT_BASE=http://dbpedia.org
+      - START_LOCAL_NAME=resource/Masachussets
+  stardog:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - STARDOG_START_PARAMS=--disable-security
+    volumes:
+      - ./data/:/var/data
+    ports:
+      - "5820:5820"
